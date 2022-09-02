@@ -6,6 +6,14 @@ public class MonsterType2Script : MonoBehaviour, IClickable
 {
     [SerializeField] private GameObject controller;
     private int _hp = 2;
+
+    private IClickable _clickableImplementation;
+
+    private void Awake()
+    {
+        controller = GameObject.Find("MonsterController");
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -25,4 +33,6 @@ public class MonsterType2Script : MonoBehaviour, IClickable
             controller.GetComponent<MonsterControllerScript>().KillThis(gameObject);
         }
     }
+
+
 }

@@ -181,6 +181,7 @@
           <e p="MonsterSpawnerScript.cs" t="Include" />
           <e p="MonstersScripts" t="Include">
             <e p="IClickable.cs" t="Include" />
+            <e p="IControlled.cs" t="Include" />
             <e p="MonsterType1Script.cs" t="Include" />
             <e p="MonsterType2Script.cs" t="Include" />
             <e p="MonsterType3Script.cs" t="Include" />

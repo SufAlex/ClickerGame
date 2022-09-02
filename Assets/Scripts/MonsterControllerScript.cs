@@ -12,16 +12,22 @@ public class MonsterControllerScript : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] private int score;
     [SerializeField] private GameObject endPanel;
+    [SerializeField] private AudioSource deadSong;
     private void Awake()
     {
         score = 0;
+    }
+
+    private void Update()
+    {
+
     }
 
     public void AddMonster(GameObject newMonster)
     {
        monstersList.Add(newMonster);
        
-       Debug.Log("AddMonster");
+       //Debug.Log("AddMonster");
        //Debug.Log(monstersList.Count);
 
        if (GameObject.FindGameObjectsWithTag("Monster").Length > 5)
@@ -29,7 +35,6 @@ public class MonsterControllerScript : MonoBehaviour
            StartCoroutine(EndGame());
        }
        
-       //KillAll();
        
 
     }
@@ -51,13 +56,24 @@ public class MonsterControllerScript : MonoBehaviour
     {
         Debug.Log("KillThis");
         Destroy(target);
+        
+       /* if(deadSong == null)
+            Debug.Log("NULL");
+        else
+            Debug.Log("NOT NULL");*/
+       
+        deadSong.Play();
         Debug.Log("before " + score);
         score += 1;
         Debug.Log("after " + score);
     }
+    
+
 
     private IEnumerator EndGame()
     {
+        //deadSong.Play();
+
         Debug.Log("end " + score);
         endPanel.GetComponentInChildren<Text>().text = "Score: " + score;
         endPanel.SetActive(true);

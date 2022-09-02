@@ -20,6 +20,7 @@ public class MonsterSpawnerScript : MonoBehaviour
             Quaternion.identity);
         
         controller.GetComponent<MonsterControllerScript>().AddMonster(newMonster);
+        //newMonster.GetComponent<IClickable>().MCS = controller;
     }
     // Start is called before the first frame update
     void Start()

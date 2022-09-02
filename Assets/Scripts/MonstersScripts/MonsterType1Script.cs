@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,13 @@ public class MonsterType1Script : MonoBehaviour, IClickable
 {
     [SerializeField] private GameObject controller;
     private int _hp = 1;
+    private IClickable _clickableImplementation;
+
+    private void Awake()
+    {
+        controller = GameObject.Find("MonsterController");
+    }
+
     void Start()
     {
         
@@ -22,9 +30,12 @@ public class MonsterType1Script : MonoBehaviour, IClickable
         if (--_hp <= 0)
         {
             //Debug.Log("MONSTER1");
-            //GetComponent<AudioSource>().PlayDelayed(2);
+            //GetComponent<AudioSource>().Play();
             controller.GetComponent<MonsterControllerScript>().KillThis(gameObject);
+
         }
             //Destroy(gameObject);
     }
+
+
 }
