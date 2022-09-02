@@ -22,6 +22,7 @@ public class MonsterType1Script : MonoBehaviour, IClickable
         if (--_hp <= 0)
         {
             //Debug.Log("MONSTER1");
+            //GetComponent<AudioSource>().PlayDelayed(2);
             controller.GetComponent<MonsterControllerScript>().KillThis(gameObject);
         }
             //Destroy(gameObject);
