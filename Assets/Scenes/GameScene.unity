@@ -963,6 +963,49 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 374765785}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &394516427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 394516429}
+  - component: {fileID: 394516428}
+  m_Layer: 0
+  m_Name: MenuManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &394516428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 394516427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08fbc52a2429ee04ab2e5af33028828f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &394516429
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 394516427}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.4049377, y: -5.366913, z: -4.482025}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &489465968
 GameObject:
   m_ObjectHideFlags: 0
@@ -1774,6 +1817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31c17593f46b3884f9c6c828346222f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _monsterControllerScript: {fileID: 1815766763}
   btnMenu: {fileID: 1116601642}
   btnBoost1: {fileID: 283875605}
   btnBoost2: {fileID: 1104291931}
@@ -4402,6 +4446,7 @@ MonoBehaviour:
   score: 0
   endPanel: {fileID: 2029450850}
   deadSong: {fileID: 1558523249}
+  MCS: {fileID: 1167900615}
 --- !u!4 &1815766764
 Transform:
   m_ObjectHideFlags: 0

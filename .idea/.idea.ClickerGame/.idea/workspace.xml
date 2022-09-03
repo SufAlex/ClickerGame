@@ -11,18 +11,32 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonstersScripts/MonsterType3Script.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonstersScripts/IControlled.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonsterControllerScript.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonstersScripts/IClickable.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonstersScripts/MonsterType2Script.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/RayCasterScript.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MenuManagerScript.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/SaveDataScript.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonsterSpawnerScript.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MonstersScripts/MonsterType1Script.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/MonstersScripts/IControlled.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/MonsterSpawnerScript.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/MonstersScripts/IClickable.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/MonstersScripts/MonsterType1Script.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/MonstersScripts/MonsterType3Script.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/MonstersScripts/MonsterType2Script.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/MenuManagerScript.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UIScripts/GameUIScript.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/MonsterSpawnerScript.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/SaveDataScript.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UIScripts/MenuScript.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/MonsterControllerScript.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/RayCasterScript.cs" />
       </list>
     </option>
   </component>
@@ -75,7 +89,9 @@
       <option name="presentableId" value="Default" />
       <updated>1662048157676</updated>
       <workItem from="1662048175224" duration="1989000" />
-      <workItem from="1662101855895" duration="11912000" />
+      <workItem from="1662101855895" duration="14843000" />
+      <workItem from="1662189146433" duration="1774000" />
+      <workItem from="1662191153966" duration="10132000" />
     </task>
     <servers />
   </component>
@@ -92,5 +108,9 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="541" y="96" key="RiderGenerateDialog/0.0.1536.824@0.0.1536.824" timestamp="1662119074569" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1662189421573">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1662189421573" />
   </component>
 </project>

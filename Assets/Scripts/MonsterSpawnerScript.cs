@@ -22,6 +22,11 @@ public class MonsterSpawnerScript : MonoBehaviour
         controller.GetComponent<MonsterControllerScript>().AddMonster(newMonster);
         //newMonster.GetComponent<IClickable>().MCS = controller;
     }
+
+    public void StopSpawn()
+    {
+        CancelInvoke("Spown");
+    }
     // Start is called before the first frame update
     void Start()
     {

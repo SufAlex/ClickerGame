@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GameUIScript : MonoBehaviour
 {
-    //[SerializeField] private GameObject interfacePanel;
+    [SerializeField] private MonsterControllerScript _monsterControllerScript;
     
     [SerializeField] private Button btnMenu;
     [SerializeField] private Button btnBoost1;
@@ -14,11 +14,13 @@ public class GameUIScript : MonoBehaviour
     void Awake()
     {
         btnMenu.onClick.AddListener(ToMainMenu);
+        btnBoost1.onClick.AddListener(_monsterControllerScript.KillAll);
     }
 
     private void ToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+        
     }
 
     // Update is called once per frame

@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class RayCasterScript : MonoBehaviour
 {
     
     //[SerializeField] private Camera camera;
+    [SerializeField] private AudioSource clickSong;
+    
     private RaycastHit hit;
     // Start is called before the first frame update
     void Start()
@@ -20,12 +23,14 @@ public class RayCasterScript : MonoBehaviour
 //gameObject.camera
         Ray ray = gameObject.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
         
-        if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(0)) {
+        if (Physics.Raycast(ray, out hit) && Input.GetMouseButtonDown(0) 
+                                          && !EventSystem.current.IsPointerOverGameObject()) {
 
             if (hit.transform.gameObject.GetComponent<IClickable>() != null)
             {
                 //Debug.Log("CLICK!!!");
                 hit.transform.gameObject.GetComponent<IClickable>().Click();
+                clickSong.Play();
             }
 
 

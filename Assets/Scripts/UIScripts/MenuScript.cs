@@ -9,6 +9,7 @@ public class MenuScript : MonoBehaviour
     [SerializeField] private GameObject menuPanel;
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject recordsPanel;
+    [SerializeField] private Text recordsText;
     
     [SerializeField] private Button btnStart;
     [SerializeField] private Button btnSettings;
@@ -49,6 +50,9 @@ public class MenuScript : MonoBehaviour
         menuPanel.SetActive(false);
         settingsPanel.SetActive(false);
         recordsPanel.SetActive(true);
+        
+        SaveDataScript.LoadData();
+        SaveDataScript.PrintToText(recordsText);
     }
     
     private void QuiteGame()
