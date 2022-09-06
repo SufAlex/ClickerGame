@@ -6,8 +6,7 @@ public class MonsterType3Script : MonoBehaviour, IClickable
 {
     [SerializeField] private GameObject controller;
     private int _hp = 3;
-
-    private IClickable _clickableImplementation;
+    
 
     
     private void Awake()
@@ -31,7 +30,7 @@ public class MonsterType3Script : MonoBehaviour, IClickable
     {
         if(--_hp <=0 )
         {
-            controller.GetComponent<MonsterControllerScript>().KillThis(gameObject);
+            controller.GetComponent<GameController>().KillThis(gameObject);
         }
     }
 

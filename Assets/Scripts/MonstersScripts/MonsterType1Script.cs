@@ -7,7 +7,6 @@ public class MonsterType1Script : MonoBehaviour, IClickable
 {
     [SerializeField] private GameObject controller;
     private int _hp = 1;
-    private IClickable _clickableImplementation;
 
     private void Awake()
     {
@@ -31,7 +30,7 @@ public class MonsterType1Script : MonoBehaviour, IClickable
         {
             //Debug.Log("MONSTER1");
             //GetComponent<AudioSource>().Play();
-            controller.GetComponent<MonsterControllerScript>().KillThis(gameObject);
+            controller.GetComponent<GameController>().KillThis(gameObject);
 
         }
             //Destroy(gameObject);

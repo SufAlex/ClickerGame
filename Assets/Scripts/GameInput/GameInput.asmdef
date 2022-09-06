@@ -2,7 +2,8 @@
     "name": "GameInput",
     "rootNamespace": "GameInput",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c"
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:28b0aa5d4b5e8cd45bd1fa3a9c1ff17b"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
