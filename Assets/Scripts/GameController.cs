@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -20,9 +21,9 @@ public class GameController : MonoBehaviour
     
     [SerializeField] private GameObject endPanel;
 
-    private CancellationTokenSource _cts;
+    private CancellationTokenSource _ctsSpawn;
     private UniTask _spawnTask;
-    
+
     //TODO перенести сюда ссылку UIView
     
     private void Awake()
@@ -30,8 +31,31 @@ public class GameController : MonoBehaviour
         SaveDataScript.LoadData();
         _monsters = new List<MonsterPresenter>();
         
-        _cts = new CancellationTokenSource();
-        SpawnTask(_cts.Token).Forget();
+        _ctsSpawn = new CancellationTokenSource();
+        SpawnTask(_ctsSpawn.Token).Forget();
+        
+        EndGameTask().Forget();
+
+    }
+
+    private async UniTaskVoid EndGameTask()
+    {
+        while(_monsters.Count <= 10) {
+            await UniTask.Yield();
+        }
+        
+        _ctsSpawn.Cancel();
+        
+        SaveDataScript.AddRecord(_score);
+        SaveDataScript.SaveData();
+        SaveDataScript.PrintToLog();
+        
+        endPanel.GetComponentInChildren<Text>().text = "Score: " + _score;
+        endPanel.SetActive(true);
+
+        await UniTask.Delay(4000);
+        
+        SceneManager.LoadScene("MainMenu");
 
     }
     
@@ -40,12 +64,7 @@ public class GameController : MonoBehaviour
         using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
         while (!ct.IsCancellationRequested)
         {
-            if (_monsters.Count >= 30) {
-                _cts.Cancel();
-                StartCoroutine(EndGame());
-                break;
-            }
-            
+
             CreateMonster();
             
             await UniTask.Delay(TimeSpan.FromSeconds(spawnRate), cancellationToken: linkedCts.Token);
@@ -84,7 +103,6 @@ public class GameController : MonoBehaviour
         _score++;
     }
     
-
     public void KillAllMonsters()
     {
         while (_monsters.Count > 0)
@@ -93,22 +111,4 @@ public class GameController : MonoBehaviour
         }
     }
 
-
-    
-
-
-    private IEnumerator EndGame()
-    { 
-        SaveDataScript.AddRecord(_score);
-        SaveDataScript.SaveData();
-        SaveDataScript.PrintToLog();
-        
-        Debug.Log("end " + _score);
-        endPanel.GetComponentInChildren<Text>().text = "Score: " + _score;
-        endPanel.SetActive(true);
-        yield return new WaitForSeconds(4f);;
-        SceneManager.LoadScene("MainMenu");
-    }
-
-    
 }
