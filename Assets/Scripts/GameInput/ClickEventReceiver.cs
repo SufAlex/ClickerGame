@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using MonstersScripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,9 +22,9 @@ namespace GameInput
                     var ray = playerCamera.ScreenPointToRay(_userPointerPosition);
 
                     if (Physics.Raycast(ray, out var hit)
-                        && hit.transform.gameObject.GetComponent<IClickable>() != null)
+                        && hit.transform.gameObject.GetComponent<MonsterView>() != null)
                     {
-                        hit.transform.gameObject.GetComponent<IClickable>().Click();
+                        hit.transform.gameObject.GetComponent<MonsterView>().OnClick();
                     }
                     break;
             }

@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
+using MonstersScripts;
 using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour
@@ -13,9 +14,11 @@ public class GameController : MonoBehaviour
     [SerializeField] private Rect spawnZone;
     [SerializeField] private GameObject[] monstersForSpawn;
     [SerializeField] private float spawnRate;
-    
     private List<GameObject> _monstersList;
+    private List<MonsterPresenter> _monsters;
+    
     private int _score;
+    
     [SerializeField] private GameObject endPanel;
     [SerializeField] private AudioSource deadSong;
 
@@ -25,8 +28,10 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         SaveDataScript.LoadData();
-        _cts = new CancellationTokenSource();
         _monstersList = new List<GameObject>();
+        _monsters = new List<MonsterPresenter>();
+        
+        _cts = new CancellationTokenSource();
         SpawnTask(_cts.Token).Forget();
     }
 
@@ -46,27 +51,36 @@ public class GameController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
             SceneManager.LoadScene("MainMenu");
-            
+        
+        if (_monstersList.Count > 5)
+        {
+            _cts.Cancel();
+            StartCoroutine(EndGame());
+
+            SaveDataScript.AddRecord(_score);
+            SaveDataScript.SaveData();
+            SaveDataScript.PrintToLog();
+        }
     }
 
-    public void AddMonster(GameObject newMonster)
+    private MonsterPresenter CreateMonster()
     {
-        _monstersList.Add(newMonster);
+        MonsterModel monsterModel = new MonsterModel(5);
+        MonsterView monsterView = Instantiate(monstersForSpawn[Random.Range(0, monstersForSpawn.Length)]).GetComponent<MonsterView>();
+        
+        var monsterPresenter = new MonsterPresenter(monsterModel, monsterView);
+        monsterPresenter.Death += () => KillMonster(monsterPresenter);
+        _monsters.Add(monsterPresenter);
+        return monsterPresenter;
+    }
 
-       if (GameObject.FindGameObjectsWithTag("Monster").Length > 5)
-       {
-           _cts.Cancel();
-           StartCoroutine(EndGame());
-
-           //TODO Временная затычка пока не переработан спавнер
-
-           SaveDataScript.AddRecord(_score);
-           SaveDataScript.SaveData();
-           SaveDataScript.PrintToLog();
-       }
-       
+    private void KillMonster(MonsterPresenter monsterPresenter)
+    {
+        _monsters.Remove(monsterPresenter);
+        Destroy(monsterPresenter.MonsterView.gameObject);
     }
     
+
     public void KillAll()
     {
         while (_monstersList.Count > 0)
