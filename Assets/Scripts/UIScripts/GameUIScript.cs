@@ -12,7 +12,7 @@ public class GameUIScript : MonoBehaviour
     void Awake()
     {
         btnMenu.onClick.AddListener(ToMainMenu);
-       // btnBoost1.onClick.AddListener(gameController.KillAll);
+        btnBoost1.onClick.AddListener(gameController.KillAllMonsters);
     }
 
     private void ToMainMenu()

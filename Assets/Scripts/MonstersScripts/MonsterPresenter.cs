@@ -1,8 +1,9 @@
 ﻿using System;
+using UnityEngine;
 
 namespace MonstersScripts
 {
-    public class MonsterPresenter
+    public class MonsterPresenter 
     {
         private MonsterModel _monsterModel;
         public MonsterView MonsterView { get; }
@@ -23,10 +24,15 @@ namespace MonstersScripts
         
         private void ReceiveDamage(int dmg)
         {
+            Debug.Log($"[ReceiveDamage] Отнял HP");
             _monsterModel.Hp -= dmg;
 
-            if (_monsterModel.Hp <= 0) 
+            if(Death == null) Debug.Log($"[ReceiveDamage] Death == null");
+            
+            if (_monsterModel.Hp <= 0)
                 Death?.Invoke();
+
+                
         }
         
     }

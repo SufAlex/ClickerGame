@@ -14,34 +14,40 @@ public class GameController : MonoBehaviour
     [SerializeField] private Rect spawnZone;
     [SerializeField] private GameObject[] monstersForSpawn;
     [SerializeField] private float spawnRate;
-    private List<GameObject> _monstersList;
     private List<MonsterPresenter> _monsters;
     
     private int _score;
     
     [SerializeField] private GameObject endPanel;
-    [SerializeField] private AudioSource deadSong;
 
     private CancellationTokenSource _cts;
     private UniTask _spawnTask;
     
+    //TODO перенести сюда ссылку UIView
+    
     private void Awake()
     {
         SaveDataScript.LoadData();
-        _monstersList = new List<GameObject>();
         _monsters = new List<MonsterPresenter>();
         
         _cts = new CancellationTokenSource();
         SpawnTask(_cts.Token).Forget();
-    }
 
+    }
+    
     private async UniTaskVoid SpawnTask(CancellationToken ct)
     {
         using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
         while (!ct.IsCancellationRequested)
         {
-            var newMonster = Instantiate(monstersForSpawn[Random.Range(0, monstersForSpawn.Length)]);
-            _monstersList.Add(newMonster);
+            if (_monsters.Count >= 30) {
+                _cts.Cancel();
+                StartCoroutine(EndGame());
+                break;
+            }
+            
+            CreateMonster();
+            
             await UniTask.Delay(TimeSpan.FromSeconds(spawnRate), cancellationToken: linkedCts.Token);
         }
         linkedCts.Cancel();
@@ -52,21 +58,18 @@ public class GameController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape))
             SceneManager.LoadScene("MainMenu");
         
-        if (_monstersList.Count > 5)
-        {
-            _cts.Cancel();
-            StartCoroutine(EndGame());
-
-            SaveDataScript.AddRecord(_score);
-            SaveDataScript.SaveData();
-            SaveDataScript.PrintToLog();
-        }
     }
 
     private MonsterPresenter CreateMonster()
     {
-        MonsterModel monsterModel = new MonsterModel(5);
-        MonsterView monsterView = Instantiate(monstersForSpawn[Random.Range(0, monstersForSpawn.Length)]).GetComponent<MonsterView>();
+        MonsterModel monsterModel = new MonsterModel(2);
+        //TODO начальный кватернион монстра
+        MonsterView monsterView = Instantiate(monstersForSpawn[Random.Range(0, monstersForSpawn.Length)], 
+                new Vector3(Random.Range(spawnZone.xMin, spawnZone.xMax),
+                    Random.Range(-3,10),
+                    Random.Range(spawnZone.yMin, spawnZone.yMax)), 
+                Quaternion.identity)
+            .GetComponent<MonsterView>();
         
         var monsterPresenter = new MonsterPresenter(monsterModel, monsterView);
         monsterPresenter.Death += () => KillMonster(monsterPresenter);
@@ -78,30 +81,28 @@ public class GameController : MonoBehaviour
     {
         _monsters.Remove(monsterPresenter);
         Destroy(monsterPresenter.MonsterView.gameObject);
+        _score++;
     }
     
 
-    public void KillAll()
+    public void KillAllMonsters()
     {
-        while (_monstersList.Count > 0)
+        while (_monsters.Count > 0)
         {
-            Destroy(_monstersList[0]);
-            _monstersList.RemoveAt(0);
+            KillMonster(_monsters[0]);
         }
-
     }
 
-    public void KillThis(GameObject target)
-    {
-        Destroy(target);
-        deadSong.Play();
-        _score += 1;
-    }
+
     
 
 
     private IEnumerator EndGame()
     { 
+        SaveDataScript.AddRecord(_score);
+        SaveDataScript.SaveData();
+        SaveDataScript.PrintToLog();
+        
         Debug.Log("end " + _score);
         endPanel.GetComponentInChildren<Text>().text = "Score: " + _score;
         endPanel.SetActive(true);

@@ -17,14 +17,15 @@ namespace GameInput
             switch (clickEventContext.phase)
             {
                 case InputActionPhase.Started:
-                    Debug.Log($"[Position] {_userPointerPosition}");
+                    //Debug.Log($"[Position] {_userPointerPosition}");
                     
                     var ray = playerCamera.ScreenPointToRay(_userPointerPosition);
 
                     if (Physics.Raycast(ray, out var hit)
-                        && hit.transform.gameObject.GetComponent<MonsterView>() != null)
+                        && hit.transform.gameObject.GetComponent<IClickable>() != null)
                     {
-                        hit.transform.gameObject.GetComponent<MonsterView>().OnClick();
+                        Debug.Log($"[OnClick] Попал в монстра");
+                        hit.transform.gameObject.GetComponent<IClickable>().OnClick();
                     }
                     break;
             }
