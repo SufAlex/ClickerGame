@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using MonstersScripts;
+using UIScripts;
 using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour
@@ -24,18 +25,19 @@ public class GameController : MonoBehaviour
     private CancellationTokenSource _ctsSpawn;
     private UniTask _spawnTask;
 
-    //TODO перенести сюда ссылку UIView
+    [SerializeField] private UIView _gameUIView;
+    private UIPresenter _gameUI;
     
     private void Awake()
     {
         SaveDataScript.LoadData();
         _monsters = new List<MonsterPresenter>();
+        _gameUI = CreateGameUI();
         
         _ctsSpawn = new CancellationTokenSource();
         SpawnTask(_ctsSpawn.Token).Forget();
         
         EndGameTask().Forget();
-
     }
 
     private async UniTaskVoid EndGameTask()
@@ -56,7 +58,6 @@ public class GameController : MonoBehaviour
         await UniTask.Delay(4000);
         
         SceneManager.LoadScene("MainMenu");
-
     }
     
     private async UniTaskVoid SpawnTask(CancellationToken ct)
@@ -81,6 +82,7 @@ public class GameController : MonoBehaviour
 
     private MonsterPresenter CreateMonster()
     {
+        //TODO разные префабы соответствуют разным монстрам и количеству хп(свитч?) а если для разных разная вероятность?
         MonsterModel monsterModel = new MonsterModel(2);
         //TODO начальный кватернион монстра
         MonsterView monsterView = Instantiate(monstersForSpawn[Random.Range(0, monstersForSpawn.Length)], 
@@ -109,6 +111,17 @@ public class GameController : MonoBehaviour
         {
             KillMonster(_monsters[0]);
         }
+    }
+
+    private UIPresenter CreateGameUI()
+    {
+        //NOTE Пустышка. А что там может быть?
+        UIModel uiModel = new UIModel();
+        UIPresenter uiPresenter = new UIPresenter(uiModel, _gameUIView);
+
+        uiPresenter.Boost1 += () => KillAllMonsters();
+        
+        return uiPresenter;
     }
 
 }

@@ -20,7 +20,7 @@ class SaveDataScript
         
         bf.Serialize(file, records);
         file.Close();
-        Debug.Log("Records saved!");
+        //Debug.Log("Records saved!");
     }
     
     static public void LoadData()
@@ -34,7 +34,7 @@ class SaveDataScript
             records = (List<Tuple<string,int>>)bf.Deserialize(file);
         
             file.Close();
-            Debug.Log("Records loaded!");
+            //Debug.Log("Records loaded!");
         }
 
     }
@@ -45,8 +45,8 @@ class SaveDataScript
     
     static public void PrintToLog()
     {
-        Debug.Log("Records:");
-        Debug.Log("persistentDataPath:" + Application.persistentDataPath);
+        //Debug.Log("Records:");
+        //Debug.Log("persistentDataPath:" + Application.persistentDataPath);
         foreach (var rec in records)
         {
             Debug.Log(rec.Item1 + " " + rec.Item2);
