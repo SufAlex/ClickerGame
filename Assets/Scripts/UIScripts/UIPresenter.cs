@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Net.Mime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace UIScripts
 {
@@ -8,6 +10,8 @@ namespace UIScripts
     {
         private UIModel _uiModel;
         private UIView _uiView;
+        
+        //public event Action ScoreScreen;
         public event Action Boost1;
 
         public UIPresenter (UIModel model, UIView view)
@@ -20,14 +24,20 @@ namespace UIScripts
             _uiModel = model;
             _uiView = view;
             
-            //BUG при выходе в меню спавнится еще несколько монстров WTF
+            //BUG при выходе в меню спавнится еще несколько монстров - вероятно не останавливается таск SpawnTask
             _uiView.btnMenu.onClick.AddListener(ToMainMenu);
             _uiView.btnBoost1.onClick.AddListener(Boost1Method);
         }
 
-        private void ToMainMenu()
+        public void ToMainMenu()
         {
             SceneManager.LoadScene("MainMenu");
+        }
+
+        public void PrintScorePanel(int score)
+        {
+            _uiView.endPanel.GetComponentInChildren<Text>().text = "Score: " + score;
+            _uiView.endPanel.SetActive(true);
         }
 
         private void Boost1Method()

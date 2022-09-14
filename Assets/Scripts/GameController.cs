@@ -19,13 +19,13 @@ public class GameController : MonoBehaviour
     private List<MonsterPresenter> _monsters;
     
     private int _score;
-    
-    [SerializeField] private GameObject endPanel;
 
     private CancellationTokenSource _ctsSpawn;
     private UniTask _spawnTask;
+    
+    private CancellationTokenSource _ctsEndGame;
 
-    [SerializeField] private UIView _gameUIView;
+    [SerializeField] private UIView gameUIView;
     private UIPresenter _gameUI;
     
     private void Awake()
@@ -37,27 +37,30 @@ public class GameController : MonoBehaviour
         _ctsSpawn = new CancellationTokenSource();
         SpawnTask(_ctsSpawn.Token).Forget();
         
-        EndGameTask().Forget();
+        _ctsEndGame = new CancellationTokenSource();
+        EndGameTask(_ctsEndGame.Token).Forget();
     }
 
-    private async UniTaskVoid EndGameTask()
+    private async UniTaskVoid EndGameTask(CancellationToken ct)
     {
-        while(_monsters.Count <= 10) {
+        while(_monsters.Count <= 10)
+        {
+            if (ct.IsCancellationRequested) {
+                break;
+            }
             await UniTask.Yield();
         }
-        
-        _ctsSpawn.Cancel();
-        
-        SaveDataScript.AddRecord(_score);
-        SaveDataScript.SaveData();
-        SaveDataScript.PrintToLog();
-        
-        endPanel.GetComponentInChildren<Text>().text = "Score: " + _score;
-        endPanel.SetActive(true);
 
-        await UniTask.Delay(4000);
-        
-        SceneManager.LoadScene("MainMenu");
+        if (!ct.IsCancellationRequested) {
+            _ctsSpawn.Cancel();
+            
+            SaveDataScript.AddRecord(_score);
+            SaveDataScript.SaveData();
+
+            _gameUI.PrintScorePanel(_score);
+            await UniTask.Delay(4000);
+            _gameUI.ToMainMenu();
+        }
     }
     
     private async UniTaskVoid SpawnTask(CancellationToken ct)
@@ -65,7 +68,6 @@ public class GameController : MonoBehaviour
         using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
         while (!ct.IsCancellationRequested)
         {
-
             CreateMonster();
             
             await UniTask.Delay(TimeSpan.FromSeconds(spawnRate), cancellationToken: linkedCts.Token);
@@ -77,7 +79,6 @@ public class GameController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
             SceneManager.LoadScene("MainMenu");
-        
     }
 
     private MonsterPresenter CreateMonster()
@@ -117,11 +118,17 @@ public class GameController : MonoBehaviour
     {
         //NOTE Пустышка. А что там может быть?
         UIModel uiModel = new UIModel();
-        UIPresenter uiPresenter = new UIPresenter(uiModel, _gameUIView);
+        UIPresenter uiPresenter = new UIPresenter(uiModel, gameUIView);
 
         uiPresenter.Boost1 += () => KillAllMonsters();
         
         return uiPresenter;
     }
 
+    private void OnDestroy()
+    {
+        _ctsSpawn.Cancel();
+        _ctsEndGame.Cancel();
+    }
+    
 }
